@@ -1,0 +1,38 @@
+section .data
+    newline DB 0x0A
+    
+section .text
+    global _start
+
+print_char:
+    mov eax, 4
+    mov ebx, 1
+    int 0x80
+
+    ret
+
+print_newline:
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, newline
+    mov edx, 1
+    int 0x80
+
+    ret
+
+_start:
+    mov ecx, 26
+    mov ebx, 'A'
+
+print_loop:
+    mov [esp-4], bl
+    call print_char
+
+    call print_newline
+
+    inc ebx
+    loop print_loop
+
+exit:
+    mov eax, 1
+    int 0x80
